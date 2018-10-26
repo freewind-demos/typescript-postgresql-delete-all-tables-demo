@@ -1,2 +1,6 @@
-hello.js
-hello.js.map
+.idea/
+.vscode/
+node_modules/
+build/
+tmp/
+temp/

@@ -1,19 +1,20 @@
-TypeScript tsconfig.json Demo
-============================
-
-`tsconfig.json`是typescript项目的说明文件，指定`tsc`所需要的各个参数。
+TypeScript typeorm Postgresql Demo
+==================================
 
 ```
-npm install
-npm run tsc
+brew install postgresql
+psql postgres
 ```
 
-或者使用`ts-node`:
-
 ```
-npm run demo
+create user "demo";
+create database "typescript-typeorm-postgresql-demo";
+alter user "demo" with encrypted password '123456';
+grant all privileges on database "typescript-typeorm-postgresql-demo" to "demo";
 ```
 
-Resources
----------
-- tsconfig详解：<https://www.typescriptlang.org/docs/handbook/tsconfig-json.html>
+Steps to run this project:
+
+1. Run `npm i` command
+2. Setup database settings inside `ormconfig.json` file
+3. Run `npm start` command

@@ -1,35 +1,43 @@
 import "reflect-metadata";
-import {createConnection} from "typeorm";
-import {User} from "./entity/User";
-import {Profile} from './entity/Profile';
+
+import {Client} from 'pg';
+
+const dbName = 'typescript-postgresql-delete-all-tables-demo';
 
 async function main() {
   console.log('### > main')
-  try {
-    const connection = await createConnection()
-    console.log("Inserting a new user into the database...");
 
-    const profile = new Profile();
-    profile.gender = "male";
-    profile.photo = "me.jpg";
-    await connection.manager.save(profile);
+  const client = new Client({
+    user: 'demo',
+    host: 'localhost',
+    database: dbName,
+    password: '123456',
+    port: 5432,
+  })
 
-    const user = new User();
-    user.firstName = "Timber";
-    user.lastName = "Saw";
-    user.age = 25;
-    user.profile = profile;
-    await connection.manager.save(user);
-    console.log("Saved a new user with id: " + user.id);
+  await client.connect()
 
-    console.log("Loading users from the database...");
-    const users = await connection.manager.find(User, {relations: ["profile"]});
-    console.log("Loaded users: ", users);
-
-    console.log("Here you can setup and run express/koa/any other framework.");
-  } catch (error) {
-    console.error(error)
+  const tableNames = ['aaa', 'bbb', 'ccc']
+  for (const tableName of tableNames) {
+    console.log("### create table:", tableName);
+    await client.query(`create table ${tableName} (id text PRIMARY KEY)`)
   }
+
+  // clear all tables
+  const sql = "SELECT table_name FROM information_schema.tables WHERE table_type='BASE TABLE' AND table_schema='public'";
+
+  // [{ table_name: 'aaa' }, { table_name: 'bbb' }, { table_name: 'ccc' }]
+  const result = await client.query<{ table_name: string }>(sql)
+
+  const existingTableNames = result.rows.map(it => it.table_name)
+  console.log('### existingTableNames', existingTableNames);
+
+  for (const tableName of existingTableNames) {
+    console.log("### delete table:", tableName);
+    await client.query(`drop table ${tableName}`);
+  }
+
+  await client.end()
 }
 
 main()

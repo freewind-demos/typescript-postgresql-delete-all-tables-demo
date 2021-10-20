@@ -1,13 +1,14 @@
 {
   "devDependencies": {
-    "ts-node": "3.3.0",
     "@types/node": "8.0.29",
+    "@types/pg": "8.6.1",
+    "pg": "8.5.1",
+    "ts-node": "3.3.0",
     "typescript": "2.5.2"
   },
   "dependencies": {
-    "typeorm": "0.2.32",
     "reflect-metadata": "0.1.10",
-    "pg": "8.5.1"
+    "typeorm": "0.2.32"
   },
   "scripts": {
     "start": "ts-node src/index.ts"

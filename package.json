@@ -4,7 +4,7 @@
     "@types/pg": "8.6.1",
     "pg": "8.5.1",
     "ts-node": "3.3.0",
-    "typescript": "2.5.2"
+    "typescript": "5.3.3"
   },
   "dependencies": {
     "reflect-metadata": "0.1.10",
